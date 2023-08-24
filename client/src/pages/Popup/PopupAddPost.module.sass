@@ -1,0 +1,71 @@
+@mixin button-style
+    position: relative 
+    display: inline-block
+    cursor: pointer
+    outline: none
+    text-decoration: none
+    font-size: 14px
+    vertical-align: middle
+    color: rgb(255 255 255)
+    text-align: center
+    border-radius: 4px
+    background-color: #56b8e5
+    line-height: 22px
+    height: 40px
+    padding: 10px 20px
+    box-sizing: border-box
+    border: none
+    margin: 0
+    transition: background-color 0.2s
+
+.popupAddPost
+    width: 900px
+    height: 500px
+    display: flex
+    flex-direction: row
+    position: absolute
+    background-color: white
+    z-index: 100 
+    top: 150px
+    left: 230px
+
+.left
+    width: 500px
+    img
+        width: 500px
+        height: 500px
+
+.right
+    width: 400px
+    form
+        margin-left: 30px
+        margin-top: 30px
+    textarea
+        width: 80%
+        height: 120px
+        padding: 12px 20px
+        box-sizing: border-box
+        border: 2px solid #ccc
+        border-radius: 4px
+        background-color: #f8f8f8
+        font-size: 14px
+        resize: none
+        margin-bottom: 10px
+
+
+.input-file
+    position: relative
+    display: inline-block
+    span
+        @include button-style
+    input[type=file] 
+        position: absolute
+        z-index: -1
+        opacity: 0
+        display: block
+        width: 0
+        height: 0
+ 
+button
+    @include button-style
+
