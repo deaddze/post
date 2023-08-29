@@ -6,8 +6,10 @@ import express from 'express';
 import cors from 'cors';
 import multer from 'multer';
 import mongoose from 'mongoose';
-import {postCreateValidation} from './validations.js'
+import {postCreateValidation, commentCreateValidation} from './validations.js'
 import * as PostController from './controllers/PostController.js'
+import * as CommentsController from './controllers/CommentsController.js'
+
 const app = express();
 
 app.use(cors());
@@ -35,19 +37,28 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 app.use(express.json());
-app.use('/uploads', express.static('uploads'))
+app.use('/uploads', express.static('uploads/', {
+    setHeaders: (res, path) => {
+        res.setHeader('Content-Type', 'image/jpg');
+      }
+}))
 
-app.post('/upload', upload.single('image'), (req, res) => {
-        res.json({
-        url: `/uploads/${req.file.originalname}`
-    })
-})
 
 app.get('/posts', PostController.getAll);
 app.get('/posts/:id', PostController.getOne);
 app.post('/post', postCreateValidation, PostController.create)
 app.delete('/posts/:id', PostController.remove);
 app.patch('/posts/:id', postCreateValidation, PostController.update)
+
+app.post('/posts/:id/comments', commentCreateValidation, CommentsController.newComment);
+app.delete('/posts/:id/comments/:commentId', CommentsController.removeComment)
+
+
+app.post('/upload', upload.single('image'), (req, res) => {
+    res.json({
+    url: `/uploads/${req.file.originalname}`
+})
+})
 
 app.get('/', (req, res) => {
     res.send('Hello world');

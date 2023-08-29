@@ -32,8 +32,10 @@ function Popup(){
                 <img src={data.photos} alt='Image'></img>
               </div>
               <div className={styles.right}>
-                <TextPost thisData={data}/>
-                <Comments thisData={data}/>
+                <div>
+                  <TextPost thisData={data}/>
+                  <Comments/>
+                </div>
               </div>
             </div>
           </>

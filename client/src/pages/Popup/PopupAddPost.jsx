@@ -17,7 +17,11 @@ function PopupAddPost(){
     async function addFile(e){
         try{
             const file = e.target.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+            const {data} = await axios.post('/upload', formData);
             setSelectedFile(file)
+            setImgData(data.url)
             const reader = new FileReader();
             reader.onload = function (e) {
             setImgData(e.target.result);
@@ -28,28 +32,12 @@ function PopupAddPost(){
             alert('Ошибка загрузки файлов')
         }
     }
-    // async function submitHandler(){
-    //     try{
-    //         const formData = new FormData();
-    //         formData.append('image', data);
-    //         formData.append('description', text)
-    //         dispatch(createPost(formData))
-    //         await axios.post('/upload', data);
-    //     }catch(err){
-    //         console.warn(err);
-    //         alert('Ошибка загрузки файлов')
-    //     }}
+   
     async function createPost(e){
         try{
             e.preventDefault();
-            // const formData = new FormData();
-            // formData.append('image', selectedFile);
-            // formData.append('description', text);
-
-            // const response = await axios.post('/post', formData);
-
             const field = {
-                photos: selectedFile,
+                photos: `http://127.0.0.1:3000${imgData}`,
                 desrciption: text
             }
             const response = await axios.post('/post', field);
@@ -70,7 +58,7 @@ function PopupAddPost(){
         <Backdrop closePopup={closePopup}/>
         <div className={styles.popupAddPost}>
             <div className={styles.left}>
-                <img src={imgData} alt="Загруженное изображение"/>
+                <img src={{imgData}} alt="Загруженное изображение"/>
             </div>
             <div className={styles.right}>
                 <form method="post" encType="multipart/form-data" onSubmit={createPost}>

@@ -5,7 +5,7 @@ export const create = async(req, res) =>{
         const doc = new PostModel({
             photos: req.body.photos,
             description: req.body.description,
-            // user: req.userId,
+            comments: req.body.comments,
         })
         const post = await doc.save();
 
@@ -84,3 +84,4 @@ export const update = async(req, res) =>{
         })
     }
 }
+

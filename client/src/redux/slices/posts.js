@@ -3,7 +3,7 @@ import axios from '../../axios'
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async() => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/posts');
+    const response = await axios.get('/posts');
     return response.data;
   } catch (error) {
     throw error;
