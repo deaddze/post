@@ -37,7 +37,7 @@ function PopupAddPost(){
         try{
             e.preventDefault();
             const field = {
-                photos: `http://127.0.0.1:3000${imgData}`,
+                photos: imgData,
                 desrciption: text
             }
             const response = await axios.post('/post', field);

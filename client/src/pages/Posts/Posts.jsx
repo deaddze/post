@@ -1,5 +1,4 @@
 import styles from './Posts.module.sass'
-import NewAddPost from '../../components/NewAddPost'
 import {Link} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import {useEffect} from 'react'
@@ -19,14 +18,15 @@ function Posts(){
     }
     return (
     <>
-    <div className={styles.list}>
+    <ul className={styles.list}>
         {posts.map(post =>{
             return (
-            <Link to={`/popup/${post._id}`}> <img src={post.photos} key={post._id}/></Link>
+            <li key={post._id}>
+                <Link to={`/popup/${post._id}`}> <img src={post.photos}/></Link>
+            </li>
             )
         })}
-    </div>
-    <NewAddPost/>
+    </ul>
     </>)
 }
 export default Posts
