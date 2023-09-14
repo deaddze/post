@@ -22,6 +22,7 @@ function Popup(){
             console.log('Ошибка при получении статьи')
         })
     }, [id])
+  
     return (
         <>
         {!isHidden && (
@@ -32,10 +33,8 @@ function Popup(){
                 <img src={data.photos} alt='Image'></img>
               </div>
               <div className={styles.right}>
-                <div>
                   <TextPost thisData={data}/>
                   <Comments/>
-                </div>
               </div>
             </div>
           </>

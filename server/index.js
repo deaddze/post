@@ -14,7 +14,7 @@ const app = express();
 
 app.use(cors());
 // app.use('/post', )
-// app.options('*', cors())
+app.options('*', cors())
 
 mongoose.connect('mongodb+srv://nyeoge:12345@cluster0.hzxl5vg.mongodb.net/post?retryWrites=true&w=majority')
 .then(() =>{
@@ -37,7 +37,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 app.use(express.json());
-app.use('/uploads', express.static('uploads/', {
+app.use('/uploads', express.static('uploads', {
     setHeaders: (res, path) => {
         res.setHeader('Content-Type', 'image/jpg');
       }

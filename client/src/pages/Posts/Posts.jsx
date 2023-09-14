@@ -16,6 +16,7 @@ function Posts(){
     if (status === 'loading') {
         return <div>Loading...</div>;
     }
+  
     return (
     <>
     <ul className={styles.list}>

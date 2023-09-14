@@ -8,7 +8,6 @@ function PopupAddPost(){
     const [isHidden, setIsHidden] = useState(false)
     const [imgData, setImgData] = useState('');
     const [text, setText] = useState('');
-    const [selectedFile, setSelectedFile] = useState('')
     const navigate = useNavigate();
     function closePopup(){
         setIsHidden(true);
@@ -20,13 +19,8 @@ function PopupAddPost(){
             const formData = new FormData();
             formData.append('image', file);
             const {data} = await axios.post('/upload', formData);
-            setSelectedFile(file)
-            setImgData(data.url)
-            const reader = new FileReader();
-            reader.onload = function (e) {
-            setImgData(e.target.result);
-            };
-            reader.readAsDataURL(file);
+            const url = URL.createObjectURL(file)
+            setImgData(url)
         }catch(err){
             console.warn(err);
             alert('Ошибка загрузки файлов')
@@ -34,18 +28,17 @@ function PopupAddPost(){
     }
    
     async function createPost(e){
+        e.preventDefault();
         try{
-            e.preventDefault();
-            const field = {
+            const data = {
                 photos: imgData,
-                desrciption: text
+                description: text
             }
-            const response = await axios.post('/post', field);
+            const response = await axios.post('/post', data);
             if (response.status === 200) {
                 console.log('Пост создан:', response.data);
-            } else {
-                console.log('Пост не создан, сервер не вернул данные:', response);
             }
+            closePopup()
         }catch(err){
             console.warn(err);
             alert('Ошибка при создании статьи')
@@ -58,7 +51,7 @@ function PopupAddPost(){
         <Backdrop closePopup={closePopup}/>
         <div className={styles.popupAddPost}>
             <div className={styles.left}>
-                <img src={{imgData}} alt="Загруженное изображение"/>
+                <img src={imgData} alt="Загруженное изображение"/>
             </div>
             <div className={styles.right}>
                 <form method="post" encType="multipart/form-data" onSubmit={createPost}>
@@ -67,7 +60,7 @@ function PopupAddPost(){
                         <input type="file" name="file" onChange={addFile}/>
                         <span>Выберите файл</span>
                     </label>
-                    <button type="submit">Опубликовать</button>
+                    <button type="submit" className="btn">Опубликовать</button>
                 </form>
             </div>
         </div>
